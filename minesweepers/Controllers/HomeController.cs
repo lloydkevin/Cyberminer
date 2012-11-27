@@ -110,6 +110,27 @@ namespace minesweepers.Controllers
 			return View();
 		}
 
+		[HttpGet]
+		public JsonResult AutoComplete(string term)
+		{
+
+			var entries = new[] { new { label = "", value = "" } }.ToList();
+			entries.Clear();
+
+			var list = session.QueryOver<Search>()
+				.WhereRestrictionOn(x => x.Query).IsLike(term, MatchMode.Start)
+				.OrderBy(x => x.Frequency).Desc
+				.List();
+
+			
+			foreach (var item in list)
+			{
+				entries.Add(new { label = item.Query, value = item.Query });
+			}
+
+			return this.Json(entries, JsonRequestBehavior.AllowGet);
+		}
+
 		//
 		// POST: /Home/Edit/5
 
