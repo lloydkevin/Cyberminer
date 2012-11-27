@@ -1,0 +1,32 @@
+﻿@model IEnumerable<minesweepers.Models.SearchEntry>
+@{
+	ViewBag.Title = "Results";
+}
+<h2>
+	Results</h2>
+
+<table>
+	<tr>
+		<th>
+			URL
+		</th>
+		<th>
+			Descriptor
+		</th>
+	</tr>
+	@foreach (var item in Model)
+ {
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.URL)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Descriptor)
+			</td>
+			@*<td>
+				@Html.ActionLink("Edit", "Edit", "Entry", new { id = item.ID }, null) |
+				@Html.ActionLink("Details", "Details", new { id = item.ID }, null) |
+			</td>*@
+		</tr>
+ }
+</table>

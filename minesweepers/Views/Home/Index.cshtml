@@ -1,0 +1,25 @@
+﻿@model minesweepers.Models.Search
+@{
+	ViewBag.Title = "Index";
+}
+<h2>
+	Index</h2>
+@using (Html.BeginForm())
+{
+	@Html.ValidationSummary(true)
+
+	<fieldset>
+		<legend>Search</legend>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.Query)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.Query)
+			@Html.ValidationMessageFor(model => model.Query)
+		</div>
+		<p>
+			<input type="submit" value="Create" />
+		</p>
+	</fieldset>
+	
+}
