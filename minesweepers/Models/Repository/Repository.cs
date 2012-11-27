@@ -41,8 +41,9 @@ namespace minesweepers.Models.Repository
 			string path = HttpContext.Current.Server.MapPath(DB_FILE);
 			config.SetInterceptor(new SqlStatementInterceptor());
 
-			var se = new SchemaExport(config);
-			se.Execute(true, true, false);
+			var se = new SchemaUpdate(config);
+			se.Execute(true, true);
+			
 
 			//// delete the existing db on each run
 			//if (File.Exists(path))
