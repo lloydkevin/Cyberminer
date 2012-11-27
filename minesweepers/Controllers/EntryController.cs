@@ -65,7 +65,8 @@ namespace minesweepers.Controllers
 
 		public ActionResult Edit(int id)
 		{
-			return View();
+			var entry = session.Get<SearchEntry>(id);
+			return View(entry);
 		}
 
 		//
