@@ -93,18 +93,26 @@ namespace minesweepers.Controllers
 
 		public ActionResult Delete(int id)
 		{
-			return View();
+			var entry = session.Get<SearchEntry>(id);
+			return View(entry);
 		}
 
 		//
 		// POST: /Entry/Delete/5
 
 		[HttpPost]
-		public ActionResult Delete(int id, FormCollection collection)
+		public ActionResult Delete(SearchEntry entry)
 		{
 			try
 			{
-				// TODO: Add delete logic here
+				if (ModelState.IsValid)
+				{
+					using (var trans = session.BeginTransaction())
+					{
+						session.Delete(entry);
+						trans.Commit();
+					}
+				}
 
 				return RedirectToAction("Index");
 			}
