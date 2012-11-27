@@ -13,7 +13,6 @@ namespace minesweepers.Models.Mappings
 			Id(x => x.ID);
 			Map(x => x.Query);
 			Map(x => x.Frequency);
-			Map(x => x.Operator);
 		}
 	}
 }

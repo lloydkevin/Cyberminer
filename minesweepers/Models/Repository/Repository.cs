@@ -15,6 +15,8 @@ namespace minesweepers.Models.Repository
 	public class Repository
 	{
 		private const string DB_FILE = "~/App_Data/database.db";
+		private const string connection_string = 
+			"Server=6d148beb-edd7-496a-82cf-a1160067afa0.sqlserver.sequelizer.com;Database=db6d148bebedd7496a82cfa1160067afa0;User ID=espgosamryeotgdu;Password=ugTLxzpsuE44j8tmXuG672Bom2UAHseBHSwDNECRBr5cWgtRM7TyPmXALEzDMWSc;";
 
 		public static ISessionFactory CreateSessionFactory()
 		{
@@ -22,7 +24,8 @@ namespace minesweepers.Models.Repository
 
 			return Fluently.Configure()
 				.Database(
-					SQLiteConfiguration.Standard.UsingFile(path)
+					//SQLiteConfiguration.Standard.UsingFile(path)
+					MsSqlConfiguration.MsSql2008.ConnectionString(connection_string)
 					.UseReflectionOptimizer()
 					.ShowSql()
 				)
@@ -39,16 +42,17 @@ namespace minesweepers.Models.Repository
 			config.SetInterceptor(new SqlStatementInterceptor());
 
 			var se = new SchemaExport(config);
+			se.Execute(true, true, false);
 
-			// delete the existing db on each run
-			if (File.Exists(path))
-			{
-				se.Execute(true, false, false);
-			}
-			else
-			{
-				se.Create(true, true);
-			}
+			//// delete the existing db on each run
+			//if (File.Exists(path))
+			//{
+			//  se.Execute(true, true, false);
+			//}
+			//else
+			//{
+			//  se.Create(true, true);
+			//}
 
 			// this NHibernate tool takes a configuration (with mapping info in)
 			// and exports a database schema from it

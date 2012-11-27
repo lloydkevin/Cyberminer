@@ -18,7 +18,7 @@ namespace minesweepers.Models
 		public virtual int ID { get; protected set; }
 		public virtual string Query { get; set; }
 		public virtual int Frequency { get; set; }
-		public virtual SearchOperator Operator { get; set; }
+		
 		
 		//public Search()
 		//{

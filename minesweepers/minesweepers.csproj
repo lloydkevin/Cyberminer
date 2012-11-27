@@ -203,6 +203,7 @@
     <Content Include="Views\Entry\Index.cshtml" />
     <Content Include="Views\Home\Results.cshtml" />
     <Content Include="Views\Entry\Delete.cshtml" />
+    <Content Include="Views\Entry\Edit.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

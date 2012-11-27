@@ -41,8 +41,6 @@ namespace minesweepers.Controllers
 		[HttpPost]
 		public ActionResult Create(SearchEntry entry)
 		{
-			
-
 			try
 			{
 				if (ModelState.IsValid)
@@ -78,7 +76,18 @@ namespace minesweepers.Controllers
 		{
 			try
 			{
-				// TODO: Add update logic here
+				if (ModelState.IsValid)
+				{
+					using (var trans = session.BeginTransaction())
+					{
+						var entry = session.Get<SearchEntry>(id);
+						if (TryUpdateModel(entry))
+						{
+							session.SaveOrUpdate(entry);
+							trans.Commit();
+						}
+					}
+				}
 
 				return RedirectToAction("Index");
 			}
@@ -101,7 +110,7 @@ namespace minesweepers.Controllers
 		// POST: /Entry/Delete/5
 
 		[HttpPost]
-		public ActionResult Delete(SearchEntry entry)
+		public ActionResult Delete(int id, FormCollection collection)
 		{
 			try
 			{
@@ -109,6 +118,7 @@ namespace minesweepers.Controllers
 				{
 					using (var trans = session.BeginTransaction())
 					{
+						var entry = session.Get<SearchEntry>(id);
 						session.Delete(entry);
 						trans.Commit();
 					}
