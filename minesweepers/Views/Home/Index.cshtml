@@ -10,6 +10,26 @@
     </style>
     <script>
     	$(function () {
+
+    		function monkeyPatchAutocomplete() {
+
+    			// don't really need this, but in case I did, I could store it and chain
+    			var oldFn = $.ui.autocomplete.prototype._renderItem;
+
+    			$.ui.autocomplete.prototype._renderItem = function (ul, item) {
+    				var re = new RegExp("^" + this.term);
+    				var t = item.label.replace(re, "<span style='font-weight:bold;'>" +
+                  this.term +
+                  "</span>");
+    				return $("<li></li>")
+              .data("item.autocomplete", item)
+              .append("<a>" + t + "</a>")
+              .appendTo(ul);
+    			};
+    		}
+
+    		monkeyPatchAutocomplete();
+
     		$("#Query").autocomplete({
     			source: "Home/AutoComplete",
     			minLength: 2

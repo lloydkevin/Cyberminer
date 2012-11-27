@@ -118,14 +118,16 @@ namespace minesweepers.Controllers
 			entries.Clear();
 
 			var list = session.QueryOver<Search>()
-				.WhereRestrictionOn(x => x.Query).IsLike(term, MatchMode.Start)
+				//.WhereRestrictionOn(x => x.Query).IsLike(term, MatchMode.Start)
 				.OrderBy(x => x.Frequency).Desc
+				.Take(100)
 				.List();
 
 			
 			foreach (var item in list)
 			{
-				entries.Add(new { label = item.Query, value = item.Query });
+				if (item.Query.StartsWith(term, StringComparison.CurrentCulture))
+					entries.Add(new { label = item.Query, value = item.Query });
 			}
 
 			return this.Json(entries, JsonRequestBehavior.AllowGet);
