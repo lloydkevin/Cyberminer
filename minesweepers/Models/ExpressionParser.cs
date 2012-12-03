@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using NHibernate;
 using NHibernate.Criterion;
+using NHibernate.Linq;
 
 namespace minesweepers.Models
 {
@@ -77,8 +78,11 @@ namespace minesweepers.Models
 
 				foreach (var word in words)
 				{
-					List<SearchEntry> entries = session.QueryOver<SearchEntry>()
-						.WhereRestrictionOn(x => x.Descriptor).IsLike(word, MatchMode.Anywhere).List().ToList();
+					List<SearchEntry> entries =
+						session.Query<SearchEntry>()
+							.Where(x => x.Descriptor.Contains(word)).ToList();
+						//session.QueryOver<SearchEntry>()
+						//.WhereRestrictionOn(x => x.Descriptor).IsLike(word, MatchMode.Anywhere).List().ToList();
 
 					// Cater for case sensitive since sql is not
 					entries.RemoveAll(x => !x.Descriptor.Contains(word));
@@ -93,14 +97,15 @@ namespace minesweepers.Models
 
 		private static string[] GetParts(string expression, string op)
 		{
-
-			return expression.Split(new string[] { op }, StringSplitOptions.RemoveEmptyEntries);
+			
+			return expression.Split(new string[] { op.ToLower() }, StringSplitOptions.RemoveEmptyEntries);
 		}
 
 		private static bool HasOperator(string expression, string op)
 		{
-			var words = GetWords(expression);
-			return words.Contains(op);
+			var words = GetWords(expression).Select(x => x.ToLower());
+			
+			return words.Contains(op.ToLower());
 		}
 
 		private static string[] GetWords(string expression)
