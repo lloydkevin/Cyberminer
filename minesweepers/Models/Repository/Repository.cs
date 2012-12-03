@@ -39,8 +39,7 @@ namespace minesweepers.Models.Repository
 		private static void BuildSchema(Configuration config)
 		{
 			string path = HttpContext.Current.Server.MapPath(DB_FILE);
-			config.SetInterceptor(new SqlStatementInterceptor());
-
+		
 			var se = new SchemaUpdate(config);
 			se.Execute(true, true);
 			
@@ -63,17 +62,4 @@ namespace minesweepers.Models.Repository
 		}
 
 	}
-
-	public class SqlStatementInterceptor : EmptyInterceptor
-	{
-		public override NHibernate.SqlCommand.SqlString OnPrepareStatement(NHibernate.SqlCommand.SqlString sql)
-		{
-			Debug.WriteLine(sql.ToString());
-			return sql;
-		}
-
-
-	}
-
-
 }
