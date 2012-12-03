@@ -10,9 +10,9 @@ using System.IO;
 using NHibernate.Tool.hbm2ddl;
 using System.Diagnostics;
 
-namespace minesweepers.Models.Repository
+namespace minesweepers.Models
 {
-	public class Repository
+	public class nHibernateSetup
 	{
 		private const string DB_FILE = "~/App_Data/database.db";
 		private const string connection_string = 

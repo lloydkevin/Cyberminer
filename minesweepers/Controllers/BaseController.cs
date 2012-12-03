@@ -4,13 +4,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using NHibernate;
-using minesweepers.Models.Repository;
+using minesweepers.Models;
 
 namespace minesweepers.Controllers
 {
 	public abstract class BaseController : Controller
 	{
-		protected ISessionFactory sessionFactory = Repository.CreateSessionFactory();
+		protected ISessionFactory sessionFactory = nHibernateSetup.CreateSessionFactory();
 		protected ISession session;
 
 		public BaseController()
