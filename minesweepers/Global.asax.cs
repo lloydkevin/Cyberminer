@@ -37,6 +37,7 @@ namespace minesweepers
 
 			RegisterGlobalFilters(GlobalFilters.Filters);
 			RegisterRoutes(RouteTable.Routes);
+			log4net.Config.XmlConfigurator.Configure();
 		}
 
 
