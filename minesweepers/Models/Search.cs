@@ -33,7 +33,7 @@ namespace minesweepers.Models
 
 		public Search()
 		{
-			ResultsPerPage = 5;
+			ResultsPerPage = 20;
 		}
 
 		[Required]
