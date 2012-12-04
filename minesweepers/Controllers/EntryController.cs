@@ -14,7 +14,7 @@ namespace minesweepers.Controllers
 		public ActionResult Index(int? page)
 		{
 			var pageIndex = (page ?? 1) - 1; //MembershipProvider expects a 0 for the first page
-			var pageSize = 2;
+			var pageSize = 5;
 			var pageNumber = page ?? 1;
 
 			var paged = session.Query<SearchEntry>();

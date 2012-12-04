@@ -20,7 +20,7 @@ namespace minesweepers.Models
 
 		public Search()
 		{
-			ResultsPerPage = 1;
+			ResultsPerPage = 5;
 		}
 
 		[DisplayNameAttribute("Search")]

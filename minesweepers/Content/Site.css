@@ -325,6 +325,12 @@ div#title {
 
 
 /* Pager */
+
+.pagination ul 
+{
+	padding: 0; 
+}
+
 .pager
 {
 	margin: 8px 3px;
