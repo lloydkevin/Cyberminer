@@ -14,6 +14,18 @@ namespace minesweepers.Models
 		NOT
 	}
 
+	public class OperatorValidation : ValidationAttribute
+	{
+		public override bool IsValid(object value)
+		{
+			var val = value as string;
+			if (val != null)
+			{
+				return !val.StartsWith("NOT", StringComparison.CurrentCulture);
+			}
+			return true;
+		}
+	}
 
 	public class Search
 	{
@@ -26,6 +38,7 @@ namespace minesweepers.Models
 
 		[Required]
 		[DisplayNameAttribute("Search")]
+		[OperatorValidation(ErrorMessage="Search query cannot start with NOT operator")]
 		public virtual string Query { get; set; }
 
 		

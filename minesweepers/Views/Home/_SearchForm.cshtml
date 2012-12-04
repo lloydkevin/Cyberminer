@@ -43,7 +43,7 @@
 	<fieldset>
 		<legend>Search</legend>
 		<div class="editor-label">
-			@Html.LabelFor(model => model.Search.Query)
+			@Html.LabelFor(model => model.Search.Query) - <em>Use "OR", "AND", and "NOT" (case sensitive) as boolean search operators</em>
 		</div>
 		<div class="editor-field">
 			@Html.EditorFor(model => model.Search.Query)
