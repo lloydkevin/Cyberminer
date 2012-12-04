@@ -43,6 +43,9 @@
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="MvcPaging">
+      <HintPath>..\packages\MvcPaging.2.0.3\lib\net40\MvcPaging.dll</HintPath>
+    </Reference>
     <Reference Include="NHibernate">
       <HintPath>..\packages\NHibernate.3.3.2.4000\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
@@ -90,6 +93,7 @@
     <Compile Include="Models\nHibernateSetup.cs" />
     <Compile Include="Models\Search.cs" />
     <Compile Include="Models\SearchEntry.cs" />
+    <Compile Include="Models\ViewModel\ResultsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -209,6 +213,7 @@
     <Content Include="Views\Home\Results.cshtml" />
     <Content Include="Views\Entry\Delete.cshtml" />
     <Content Include="Views\Entry\Edit.cshtml" />
+    <Content Include="Views\Home\_SearchForm.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
@@ -227,7 +232,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>55898</DevelopmentServerPort>
+          <DevelopmentServerPort>40965</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

@@ -1,9 +1,12 @@
-﻿@model IEnumerable<minesweepers.Models.SearchEntry>
+﻿@model minesweepers.Models.ViewModel.ResultsViewModel
+@using MvcPaging;
 @{
 	ViewBag.Title = "Results";
 }
 <h2>
 	Results</h2>
+
+@Html.Partial("_SearchForm", Model)
 
 <table>
 	<tr>
@@ -14,11 +17,11 @@
 			Descriptor
 		</th>
 	</tr>
-	@foreach (var item in Model)
+	@foreach (var item in Model.PagedResults)
  {
 		<tr>
 			<td>
-				@Html.DisplayFor(modelItem => item.URL)
+				<a href="@item.URL">@item.URL</a> 
 			</td>
 			<td>
 				@Html.DisplayFor(modelItem => item.Descriptor)
@@ -26,3 +29,13 @@
 		</tr>
  }
 </table>
+
+<div class="pager">
+    @Html.Pager(Model.PagedResults.PageSize, Model.PagedResults.PageNumber,
+								Model.PagedResults.TotalItemCount).Options(x => x
+									.AddRouteValue("Search.Query", Model.Search.Query)
+									.AddRouteValue("Search.ResultsPerPage", Model.Search.ResultsPerPage)
+									.AlwaysAddFirstPageNumber()
+									)
+    </div>
+

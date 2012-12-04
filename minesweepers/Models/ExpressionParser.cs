@@ -12,6 +12,47 @@ namespace minesweepers.Models
 	{
 		private ISession session;
 
+		/// <summary>
+		/// https://code.google.com/p/solrmarc/source/browse/trunk/test/data/smoketest/solr/conf/stopwords.txt?r=1333
+		/// </summary>
+		public static string[] NOISE_WORDS =  {
+			"a",
+			"an",
+			"and",
+			"are",
+			"as",
+			"at",
+			"be",
+			"but",
+			"by",
+			"for",
+			"if",
+			"in",
+			"into",
+			"is",
+			"it",
+			"no",
+			"not",
+			"of",
+			"on",
+			"or",
+			"s",
+			"such",
+			"t",
+			"that",
+			"the",
+			"their",
+			"then",
+			"there",
+			"these",
+			"they",
+			"this",
+			"to",
+			"was",
+			"will",
+			"with"
+	};
+
 		public ExpressionParser(ISession session)
 		{
 			this.session = session;
@@ -21,9 +62,9 @@ namespace minesweepers.Models
 		{
 			expression = expression.Trim();
 			var list = new List<SearchEntry>();
-			if (HasOperator(expression, "or"))
+			if (HasOperator(expression, "OR"))
 			{
-				var parts = GetParts(expression, "or");
+				var parts = GetParts(expression, "OR");
 				foreach (var part in parts)
 				{
 					var results = Evaluate(part);
@@ -31,9 +72,9 @@ namespace minesweepers.Models
 				}
 			}
 
-			else if (HasOperator(expression, "and"))
+			else if (HasOperator(expression, "AND"))
 			{
-				var parts = GetParts(expression, "and");
+				var parts = GetParts(expression, "AND");
 				foreach (var part in parts)
 				{
 					var results = Evaluate(part);
@@ -49,9 +90,9 @@ namespace minesweepers.Models
 				}
 			}
 
-			else if (HasOperator(expression, "not"))
+			else if (HasOperator(expression, "NOT"))
 			{
-				var parts = GetParts(expression, "not");
+				var parts = GetParts(expression, "NOT");
 
 				int count = 0;
 				foreach (var part in parts)
@@ -85,30 +126,30 @@ namespace minesweepers.Models
 						//.WhereRestrictionOn(x => x.Descriptor).IsLike(word, MatchMode.Anywhere).List().ToList();
 
 					// Cater for case sensitive since sql is not
-					entries.RemoveAll(x => !x.Descriptor.Contains(word));
+					//entries.RemoveAll(x => !x.Descriptor.Contains(word));
+					entries.RemoveAll(x => !x.SearchWords.Contains(word));
 					list.AddRange(entries);
 				}
 			
 			}
 
 			//return session.QueryOver<SearchEntry>().WhereRestrictionOn(x => x.Descriptor).IsLike(expression, MatchMode.Anywhere).List();
-			return list;
+			return list.OrderBy(x => x.Descriptor).ToList();
 		}
 
 		private static string[] GetParts(string expression, string op)
 		{
-			
-			return expression.Split(new string[] { op.ToLower() }, StringSplitOptions.RemoveEmptyEntries);
+			return expression.Split(new string[] { op.ToUpper() }, StringSplitOptions.RemoveEmptyEntries);
 		}
 
 		private static bool HasOperator(string expression, string op)
 		{
-			var words = GetWords(expression).Select(x => x.ToLower());
+			var words = GetWords(expression);
 			
-			return words.Contains(op.ToLower());
+			return words.Contains(op.ToUpper());
 		}
 
-		private static string[] GetWords(string expression)
+		public static string[] GetWords(string expression)
 		{
 			var words = expression.Split(new char[] { '.', '?', '!', ' ', ';', ',', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
 			return words;

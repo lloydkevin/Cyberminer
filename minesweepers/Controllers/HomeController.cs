@@ -6,6 +6,9 @@ using System.Web.Mvc;
 using minesweepers.Models;
 using System.Diagnostics;
 using NHibernate.Criterion;
+using NHibernate.Linq;
+using minesweepers.Models.ViewModel;
+using MvcPaging;
 
 namespace minesweepers.Controllers
 {
@@ -16,34 +19,46 @@ namespace minesweepers.Controllers
 
 		public ActionResult Index()
 		{
-			using (var trans = session.BeginTransaction())
-			{
-				var list = session.QueryOver<Search>().List<Search>();
+			HttpContext.Cache.Remove("entries");
+			HttpContext.Cache.Remove("query");
 
-				foreach (var item in list)
-				{
-					Debug.WriteLine(item.ID);
-				}
-				
-			}
-
-			return View();
+			return View(new ResultsViewModel());
 		}
 
-		[HttpPost]
-		public ActionResult Index(Search search)
+		[HttpGet]
+		public ActionResult Results(ResultsViewModel results, int? page)
 		{
 			if (ModelState.IsValid)
 			{
-				IncrementFrequency(search);
+				var query = HttpContext.Cache["query"] as string;
+				if (query != null && query != results.Search.Query)
+				{
+					HttpContext.Cache.Remove("entries");
+					HttpContext.Cache.Remove("query");
+				}
+				if (!string.IsNullOrEmpty(results.Search.Query))
+				{
+					//System.Web.HttpContext.Current.Cache.Remove("entries");
+				}
 
-				var entries = new List<SearchEntry>();
-				var parser = new ExpressionParser(session);
-				entries = parser.Evaluate(search.Query).Distinct().ToList();
+				
 
+				var entries = System.Web.HttpContext.Current.Cache["entries"] as List<SearchEntry>;
 
+				if (entries == null)
+				{
+					IncrementFrequency(results.Search);				
+					var parser = new ExpressionParser(session);
+					entries = parser.Evaluate(results.Search.Query).Distinct().ToList();
+					HttpContext.Cache["entries"] = entries;
+					HttpContext.Cache["query"] = results.Search.Query;
+				}
 
-				return View("Results", entries);
+				results.Results = entries;
+				int currentPageIndex = page.HasValue ? page.Value - 1 : 0;
+				results.PagedResults = entries.ToPagedList(currentPageIndex, results.Search.ResultsPerPage);
+
+				return View("Results", results);
 			}
 
 			return View();
@@ -113,6 +128,17 @@ namespace minesweepers.Controllers
 		[HttpGet]
 		public JsonResult AutoComplete(string term)
 		{
+			// clean up
+			using (var tran = session.BeginTransaction())
+			{
+				var empty = session.Query<Search>().Where(x => x.Query == null);
+				foreach (var item in empty)
+				{
+					session.Delete(item);
+
+				}
+				tran.Commit();
+			}
 
 			var entries = new[] { new { label = "", value = "" } }.ToList();
 			entries.Clear();
@@ -120,16 +146,17 @@ namespace minesweepers.Controllers
 			var list = session.QueryOver<Search>()
 				//.WhereRestrictionOn(x => x.Query).IsLike(term, MatchMode.Start)
 				.OrderBy(x => x.Frequency).Desc
-				.Take(100)
+				.Take(20)
 				.List();
 
-			
+
 			foreach (var item in list)
 			{
 				if (item.Query.StartsWith(term, StringComparison.CurrentCulture))
 					entries.Add(new { label = item.Query, value = item.Query });
 			}
 
+			
 			return this.Json(entries, JsonRequestBehavior.AllowGet);
 		}
 
