@@ -12,20 +12,24 @@
 <body>
 	<div class="page">
 		<header>
-		<div id="title">
-			<h1>Search</h1>
-		</div>
-		<nav>
-			<ul id="menu">
-				<li>@Html.ActionLink("Home", "Index", "Home")</li>
-				<li>@Html.ActionLink("Entries", "Index", "Entry")</li>
-			</ul>
-		</nav>
-		</header>
+						<div id="title">
+								<h1>Cyberminer</h1>
+						</div>
+						<div id="logindisplay">
+								Welcome
+						</div>
+						<nav>
+								<ul id="menu">
+										<li>@Html.ActionLink("Home", "Index", "Home")</li>
+										<li>@Html.ActionLink("Entries", "Index", "Entry")</li>
+								</ul>
+						</nav>
+				</header>
+		<section id="main">
+						@RenderBody()
+				</section>
+		<footer>
+				</footer>
 	</div>
-	<section id="main">
-		@RenderBody()
-	</section>
-	<footer></footer>
 </body>
 </html>
