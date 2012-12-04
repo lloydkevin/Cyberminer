@@ -4,39 +4,29 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using minesweepers.Models;
+using MvcPaging;
 
 namespace minesweepers.Controllers
 {
 	public class EntryController : BaseController
 	{
-		//
-		// GET: /Entry/
-
-		public ActionResult Index()
+		public ActionResult Index(int? page)
 		{
-			var list = session.QueryOver<SearchEntry>().List();
+			int currentPageIndex = page.HasValue ? page.Value - 1 : 0;
+			var list = session.QueryOver<SearchEntry>().List().ToPagedList(currentPageIndex, 10);
 
 			return View(list);
 		}
-
-		//
-		// GET: /Entry/Details/5
 
 		public ActionResult Details(int id)
 		{
 			return View();
 		}
 
-		//
-		// GET: /Entry/Create
-
 		public ActionResult Create()
 		{
 			return View();
 		}
-
-		//
-		// POST: /Entry/Create
 
 		[HttpPost]
 		public ActionResult Create(SearchEntry entry)

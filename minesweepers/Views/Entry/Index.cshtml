@@ -1,4 +1,4 @@
-﻿@model IEnumerable<minesweepers.Models.SearchEntry>
+﻿@model IPagedList<minesweepers.Models.SearchEntry>
 @{
 	ViewBag.Title = "Index";
 }
@@ -15,7 +15,7 @@
 		<th>
 			Descriptor
 		</th>
-		<th style="width:90;">
+		<th style="width:90px;">
 		</th>
 	</tr>
 	@foreach (var item in Model)
@@ -34,3 +34,7 @@
 		</tr>
  }
 </table>
+<div class="pager">
+	@Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount)
+</div>
+
