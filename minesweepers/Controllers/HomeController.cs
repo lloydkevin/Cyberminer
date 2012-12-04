@@ -36,12 +36,6 @@ namespace minesweepers.Controllers
 					HttpContext.Cache.Remove("entries");
 					HttpContext.Cache.Remove("query");
 				}
-				if (!string.IsNullOrEmpty(results.Search.Query))
-				{
-					//System.Web.HttpContext.Current.Cache.Remove("entries");
-				}
-
-				
 
 				var entries = System.Web.HttpContext.Current.Cache["entries"] as List<SearchEntry>;
 
@@ -62,7 +56,8 @@ namespace minesweepers.Controllers
 				return View("Results", results);
 			}
 
-			return View();
+			// for validation
+			return View("Index");
 		}
 
 
@@ -129,26 +124,14 @@ namespace minesweepers.Controllers
 		[HttpGet]
 		public JsonResult AutoComplete(string term)
 		{
-			// clean up
-			using (var tran = session.BeginTransaction())
-			{
-				var empty = session.Query<Search>().Where(x => x.Query == null);
-				foreach (var item in empty)
-				{
-					session.Delete(item);
-
-				}
-				tran.Commit();
-			}
-
 			var entries = new[] { new { label = "", value = "" } }.ToList();
 			entries.Clear();
 
-			var list = session.QueryOver<Search>()
-				//.WhereRestrictionOn(x => x.Query).IsLike(term, MatchMode.Start)
-				.OrderBy(x => x.Frequency).Desc
-				.Take(20)
-				.List();
+			var list = session.Query<Search>()
+				.Where(x => x.Query.StartsWith(term))
+				.OrderByDescending(x => x.Frequency)
+				.Take(10)
+				.ToList();
 
 
 			foreach (var item in list)

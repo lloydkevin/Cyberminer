@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace minesweepers.Models
 {
@@ -23,11 +24,18 @@ namespace minesweepers.Models
 			ResultsPerPage = 5;
 		}
 
+		[Required]
 		[DisplayNameAttribute("Search")]
 		public virtual string Query { get; set; }
-		public virtual int Frequency { get; set; }
+
+		
+		[Required]
+		[Range(1, 100)]
 		[DisplayName("Results per Page")]
 		public virtual int ResultsPerPage { get; set; }
+
+		public virtual int Frequency { get; set; }
+		
 		
 		
 		//public Search()
