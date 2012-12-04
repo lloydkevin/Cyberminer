@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using MvcPaging;
+using PagedList;
 
 namespace minesweepers.Models.ViewModel
 {

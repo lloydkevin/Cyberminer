@@ -1,5 +1,4 @@
 ﻿@model minesweepers.Models.ViewModel.ResultsViewModel
-@using MvcPaging;
 @{
 	ViewBag.Title = "Results";
 }
@@ -30,12 +29,8 @@
  }
 </table>
 
-<div class="pager">
-    @Html.Pager(Model.PagedResults.PageSize, Model.PagedResults.PageNumber,
-								Model.PagedResults.TotalItemCount).Options(x => x
-									.AddRouteValue("Search.Query", Model.Search.Query)
-									.AddRouteValue("Search.ResultsPerPage", Model.Search.ResultsPerPage)
-									.AlwaysAddFirstPageNumber()
-									)
-    </div>
-
+@Html.PagedListPager(Model.PagedResults, page => Url.Action("Results",
+		new RouteValueDictionary(new Dictionary<string, object> { 
+		{ "page", page }, 
+		{ "Search.Query", Model.Search.Query },
+		{ "Search.ResultsPerPage", Model.Search.ResultsPerPage }})))

@@ -8,7 +8,7 @@ using System.Diagnostics;
 using NHibernate.Criterion;
 using NHibernate.Linq;
 using minesweepers.Models.ViewModel;
-using MvcPaging;
+using PagedList;
 
 namespace minesweepers.Controllers
 {
@@ -56,7 +56,8 @@ namespace minesweepers.Controllers
 
 				results.Results = entries;
 				int currentPageIndex = page.HasValue ? page.Value - 1 : 0;
-				results.PagedResults = entries.ToPagedList(currentPageIndex, results.Search.ResultsPerPage);
+				var pageNumber = page ?? 1;
+				results.PagedResults = entries.ToPagedList(pageNumber, results.Search.ResultsPerPage);
 
 				return View("Results", results);
 			}

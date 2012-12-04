@@ -4,7 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using minesweepers.Models;
-using MvcPaging;
+using NHibernate.Linq;
+using PagedList;
 
 namespace minesweepers.Controllers
 {
@@ -12,8 +13,13 @@ namespace minesweepers.Controllers
 	{
 		public ActionResult Index(int? page)
 		{
-			int currentPageIndex = page.HasValue ? page.Value - 1 : 0;
-			var list = session.QueryOver<SearchEntry>().List().ToPagedList(currentPageIndex, 10);
+			var pageIndex = (page ?? 1) - 1; //MembershipProvider expects a 0 for the first page
+			var pageSize = 2;
+			var pageNumber = page ?? 1;
+
+			var paged = session.Query<SearchEntry>();
+
+			var list = session.Query<SearchEntry>().ToPagedList(pageNumber, pageSize);
 
 			return View(list);
 		}

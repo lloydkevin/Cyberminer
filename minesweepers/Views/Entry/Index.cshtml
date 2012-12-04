@@ -1,4 +1,4 @@
-﻿@model IPagedList<minesweepers.Models.SearchEntry>
+﻿@model  PagedList.IPagedList<minesweepers.Models.SearchEntry>
 @{
 	ViewBag.Title = "Index";
 }
@@ -34,7 +34,6 @@
 		</tr>
  }
 </table>
-<div class="pager">
-	@Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount)
-</div>
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))
 
