@@ -160,7 +160,7 @@ namespace minesweepers.Models
 
 		public static string[] GetWords(string expression)
 		{
-			var words = expression.Split(new string[] { ".", "?", "!", " ", ";", ",", "(", ")", "-", "_", "@", "#", "~", "$", "%", "^", "&", "*", "+", "`", "=", "{", "}", "[", "]", "|",
+			var words = expression.Split(new string[] { ".", "?", "!", " ", ";", ",", "(", ")", "-", "@", "#", "~", "$", "%", "^", "&", "*", "+", "`", "=", "{", "}", "[", "]", "|",
 				"\"", "<", ">",
 				"/", "\\", ":" }, StringSplitOptions.RemoveEmptyEntries);
 			return words;
