@@ -9,6 +9,10 @@
 
 <script src="@Url.Content("~/Scripts/SearchHighlight.pack.js")" type="text/javascript"></script>
 
+
+
+@Html.Partial("_SearchForm", Model)
+
 <script type='text/javascript'>
 	jQuery(function () {
 		var options = {
@@ -20,9 +24,7 @@
 		jQuery(document).SearchHighlight(options);
 	});
 </script>
-
-@Html.Partial("_SearchForm", Model)
-
+<div class="highlightable">@*Empty Div for highlight hack*@</div>
 <table>
 	<tr>
 		<th>
@@ -34,7 +36,7 @@
 	</tr>
 	@foreach (var item in Model.PagedResults)
  {
-		<tr class="highlightable">
+		<tr>
 			<td>
 				<a href="@item.URL">@item.URL</a> 
 			</td>
