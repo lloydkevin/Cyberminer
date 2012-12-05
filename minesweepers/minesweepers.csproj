@@ -90,7 +90,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ExpressionParser.cs" />
-    <Compile Include="Models\ExpressionTreeNode.cs" />
     <Compile Include="Models\Mappings\SearchEntryMap.cs" />
     <Compile Include="Models\Mappings\SearchMap.cs" />
     <Compile Include="Models\nHibernateSetup.cs" />

@@ -5,6 +5,7 @@ using System.Web;
 using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.Linq;
+using System.Text.RegularExpressions;
 
 namespace minesweepers.Models
 {
@@ -161,7 +162,7 @@ namespace minesweepers.Models
 		public static string[] GetWords(string expression)
 		{
 			var words = expression.Split(new string[] { ".", "?", "!", " ", ";", ",", "(", ")", "-", "@", "#", "~", "$", "%", "^", "&", "*", "+", "`", "=", "{", "}", "[", "]", "|",
-				"\"", "<", ">",
+				"\"", "<", ">", "\r", "\n",
 				"/", "\\", ":" }, StringSplitOptions.RemoveEmptyEntries);
 			return words;
 		}
