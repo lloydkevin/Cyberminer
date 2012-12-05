@@ -12,6 +12,15 @@ namespace minesweepers.Models.ViewModel
 		public IEnumerable<SearchEntry> Results { get; set; }
 		public IPagedList<SearchEntry> PagedResults { get; set; }
 
+		public string QueryWords
+		{
+			get
+			{
+				var words = ExpressionParser.GetWords(Search.Query);
+				return string.Join(" ", words);
+			}
+		}
+
 		public ResultsViewModel()
 		{
 			Search = new Search();

@@ -23,6 +23,7 @@ namespace minesweepers.Models
 				var words = new List<string>();
 
 				words.AddRange(ExpressionParser.GetWords(Descriptor));
+				words.AddRange(ExpressionParser.GetWords(URL));
 				words.RemoveAll(x => ExpressionParser.NOISE_WORDS.Contains(x));
 
 				return words.ToArray();

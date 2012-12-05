@@ -2,8 +2,24 @@
 @{
 	ViewBag.Title = "Search Results - Cyberminer";
 }
-<h2>
-	Results</h2>
+<style type='text/css'>
+ span.hilite {background:yellow}
+</style>
+<h2>Results</h2>
+
+<script src="@Url.Content("~/Scripts/SearchHighlight.pack.js")" type="text/javascript"></script>
+
+<script type='text/javascript'>
+	jQuery(function () {
+		var options = {
+			exact: "exact",
+			style_name_suffix: false,
+			highlight: ".highlightable",
+			keys: "@(Model.QueryWords)"
+		}
+		jQuery(document).SearchHighlight(options);
+	});
+</script>
 
 @Html.Partial("_SearchForm", Model)
 
@@ -18,7 +34,7 @@
 	</tr>
 	@foreach (var item in Model.PagedResults)
  {
-		<tr>
+		<tr class="highlightable">
 			<td>
 				<a href="@item.URL">@item.URL</a> 
 			</td>

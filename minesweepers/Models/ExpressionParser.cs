@@ -50,7 +50,16 @@ namespace minesweepers.Models
 			"to",
 			"was",
 			"will",
-			"with"
+			"with",
+			// now add for URLs
+			"http",
+			"https",
+			"com",
+			"edu",
+			"net",
+			"org",
+			"www"
+
 	};
 
 		public ExpressionParser(ISession session)
@@ -121,7 +130,7 @@ namespace minesweepers.Models
 				{
 					List<SearchEntry> entries =
 						session.Query<SearchEntry>()
-							.Where(x => x.Descriptor.Contains(word)).ToList();
+							.Where(x => x.Descriptor.Contains(word) || x.URL.Contains(word)).ToList();
 						//session.QueryOver<SearchEntry>()
 						//.WhereRestrictionOn(x => x.Descriptor).IsLike(word, MatchMode.Anywhere).List().ToList();
 
@@ -151,7 +160,8 @@ namespace minesweepers.Models
 
 		public static string[] GetWords(string expression)
 		{
-			var words = expression.Split(new char[] { '.', '?', '!', ' ', ';', ',', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
+			var words = expression.Split(new string[] { ".", "?", "!", " ", ";", ",", "(", ")", 
+				"/", "\\", ":" }, StringSplitOptions.RemoveEmptyEntries);
 			return words;
 		}
 
